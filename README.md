@@ -1,6 +1,6 @@
 # El árbol de Salva
 
-Sorpresa de Navidad: cada persona escanea el QR, se toma una selfie, deja un mensaje de agradecimiento y su foto aparece como adorno en un árbol compartido. Desde una página oculta (`/control`) se envía, a todas las personas con el sitio abierto, una nota de Andrés, Lizz y la sede Madrid (cada dispositivo ve un mensaje al azar).
+Sorpresa de Navidad: cada persona escanea el QR, se toma una selfie, deja un mensaje de agradecimiento y su foto aparece como adorno en un árbol compartido. Desde una página oculta (`/control`) se envía, a todas las personas con el sitio abierto, una nota de Andrés y Liz desde Madrid (cada dispositivo ve un mensaje al azar).
 
 ## Stack
 

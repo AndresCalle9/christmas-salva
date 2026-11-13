@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "El árbol de Salva",
-  description: "Una selfie y unas palabras de agradecimiento para el árbol de Navidad de Salva.",
+  description: "Tu luz también hace brillar a Salva. Comparte tu sonrisa y unas palabras para nuestro árbol de Navidad.",
   icons: { icon: "/assets/favicon.svg" },
 };
 

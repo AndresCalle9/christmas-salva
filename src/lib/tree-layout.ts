@@ -66,11 +66,13 @@ export function placeWishes<T extends { id: string }>(wishes: readonly T[], slot
 
 // ── Decorations for empty slots ───────────────────────────────
 
-export type DecorColor = "pink" | "red" | "green" | "gold";
+// Only Salva (pink, magenta, orange, purple, light blue) and Julieta (cyan) brand colors.
+export type DecorColor = "pink" | "magenta" | "blush" | "orange" | "purple" | "sky" | "cyan";
 export type Decor = { kind: "light" | "star" | "bauble"; color: DecorColor };
 
-const LIGHT_COLORS: DecorColor[] = ["pink", "pink", "red", "green", "gold"];
-const BIG_COLORS: DecorColor[] = ["pink", "red", "green"];
+const LIGHT_COLORS: DecorColor[] = ["pink", "pink", "blush", "orange", "cyan", "sky"];
+const STAR_COLORS: DecorColor[] = ["orange", "orange", "blush"];
+const BAUBLE_COLORS: DecorColor[] = ["magenta", "purple", "cyan", "orange", "pink"];
 
 /**
  * The emptier the tree, the more "big" decorations (stars, baubles) so it never looks bare;
@@ -83,8 +85,8 @@ export function decorFor(slot: number, epoch: number, emptyRatio: number): Decor
 
   if (random(key) < bigChance) {
     return random(key + "k") < 0.55
-      ? { kind: "star", color: "gold" }
-      : { kind: "bauble", color: pick(BIG_COLORS, "c") };
+      ? { kind: "star", color: pick(STAR_COLORS, "c") }
+      : { kind: "bauble", color: pick(BAUBLE_COLORS, "c") };
   }
   return { kind: "light", color: pick(LIGHT_COLORS, "c") };
 }

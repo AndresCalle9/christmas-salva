@@ -11,10 +11,15 @@ export default function Home() {
       </header>
 
       <div className={styles.intro}>
-        <h1 className={styles.title}>Cuelga tu cara en el árbol</h1>
+        <h1 className={styles.title}>Tu luz también hace brillar a Salva ✨</h1>
         <p className={styles.lede}>
-          Una selfie y unas palabras de agradecimiento. Aparecerán en el árbol junto a las de todo el
-          equipo.
+          Todos tenemos una luz especial. Hoy queremos que la tuya sea parte de esta historia.
+        </p>
+        <p className={styles.lede}>
+          <strong>
+            Comparte tu sonrisa y dedica unas palabras a alguien que haya iluminado tu año.
+          </strong>{" "}
+          Juntos le daremos vida a nuestro árbol.
         </p>
       </div>
 

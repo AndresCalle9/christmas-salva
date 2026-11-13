@@ -20,7 +20,7 @@ async function fetchBroadcast(url: string): Promise<Broadcast> {
 
 /**
  * When the button on the hidden control page is pressed, every open page picks up the new
- * broadcast on its next poll and shows a note from Andrés, Lizz and the Madrid office —
+ * broadcast on its next poll and shows a note from Andrés and Liz in Madrid —
  * each device picks one of the messages at random.
  */
 export function Greeting() {

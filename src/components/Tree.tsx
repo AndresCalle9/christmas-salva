@@ -62,12 +62,22 @@ export function Tree({ initial }: { initial: Wish[] }) {
 
   return (
     <>
+      {hasMine ? (
+        <section className={styles.thanks}>
+          <h2 className={styles.thanksTitle}>¡Tu luz ya hace parte de nuestra historia! ✨</h2>
+          <p>Tu sonrisa y tus palabras se han sumado a las de todo el equipo.</p>
+          <p>
+            <strong>Porque cuando nuestras luces se unen, podemos iluminar muchas vidas.</strong> 💜
+          </p>
+        </section>
+      ) : null}
+
       <p className={styles.count} aria-live="polite">
         {wishes.length === 0
-          ? "El árbol espera su primera cara."
+          ? "El árbol espera su primera luz."
           : wishes.length === 1
-            ? "1 cara en el árbol. Toca una para leer su mensaje."
-            : `${wishes.length} caras en el árbol. Toca una para leer su mensaje.`}
+            ? "1 luz en el árbol. Toca una foto para leer su mensaje."
+            : `${wishes.length} luces en el árbol. Toca una foto para leer su mensaje.`}
       </p>
 
       <div className={styles.stage}>
@@ -107,7 +117,7 @@ export function Tree({ initial }: { initial: Wish[] }) {
 
       {hasMine ? null : (
         <Link href="/" className={styles.cta}>
-          Cuelga tu foto
+          ✨ Encender mi luz
         </Link>
       )}
 

@@ -1,7 +1,7 @@
-// Placeholder messages — replace with the final texts from Andrés, Lizz and the Madrid office.
+// Placeholder messages — replace with the final texts from Andrés and Liz in Madrid.
 // Each visitor sees one at random, so they read as personal notes.
 
-export const GREETING_SIGNATURE = "Andrés, Lizz y la sede Madrid";
+export const GREETING_SIGNATURE = "Andrés y Liz desde Madrid";
 
 export const GREETINGS: readonly string[] = [
   "Gracias por hacer de este año algo que se nota. Cada paciente que cuidamos lleva un poco de tu trabajo. Felices fiestas.",

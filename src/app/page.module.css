@@ -33,6 +33,11 @@
 
 .lede {
   color: var(--snow-dim);
-  max-width: 36ch;
+  max-width: 38ch;
   text-wrap: pretty;
+}
+
+.lede strong {
+  color: var(--snow);
+  font-weight: 500;
 }

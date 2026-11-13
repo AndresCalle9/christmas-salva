@@ -13,10 +13,12 @@
   --line: rgba(246, 241, 247, 0.14);
   --danger: #ff8a9a;
 
-  /* Tree decorations */
-  --light-red: #ff4d6d;
-  --light-green: #4be3a0;
-  --light-gold: #ffd978;
+  /* Tree decorations — Salva + Julieta palette (salvahealth.co) */
+  --salva-blush: #fdc9f9;
+  --salva-orange: #f39322;
+  --salva-purple: #5b55a0;
+  --salva-sky: #78c9db;
+  --julieta-cyan: #03d7e2;
 
   --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-body: var(--font-dm-sans), system-ui, sans-serif;

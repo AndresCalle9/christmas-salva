@@ -127,7 +127,7 @@ export function SelfieFlow() {
     <form className={styles.flow} onSubmit={submit} noValidate>
       {alreadyPosted ? (
         <p className={styles.notice}>
-          Ya estás en el árbol. <Link href="/arbol">Ver el árbol</Link>
+          Tu luz ya está en el árbol. <Link href="/arbol">Ver el árbol</Link>
         </p>
       ) : null}
 
@@ -149,7 +149,7 @@ export function SelfieFlow() {
           ) : null}
           {!photo && !showVideo ? (
             <span className={styles.placeholder} aria-hidden>
-              Tu cara aquí
+              Tu sonrisa va aquí ♡
             </span>
           ) : null}
         </div>
@@ -179,7 +179,7 @@ export function SelfieFlow() {
               onClick={startCamera}
               disabled={camera === "starting"}
             >
-              {camera === "starting" ? "Abriendo cámara…" : "Abrir cámara"}
+              {camera === "starting" ? "Abriendo cámara…" : "Tomar mi foto"}
             </button>
             <FileButton onChange={pickFile} />
           </>
@@ -195,14 +195,14 @@ export function SelfieFlow() {
             maxLength={LIMITS.name}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Como te conoce el equipo"
+            placeholder="¿Cómo te conoce el equipo?"
             required
           />
         </label>
 
         <label className={styles.field}>
           <span className={styles.labelRow}>
-            <span className={styles.label}>Tu mensaje de agradecimiento</span>
+            <span className={styles.label}>Un mensaje desde el corazón</span>
             <span className={styles.counter} aria-hidden>
               {message.length}/{LIMITS.message}
             </span>
@@ -213,7 +213,7 @@ export function SelfieFlow() {
             maxLength={LIMITS.message}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="¿A quién le das las gracias este año, y por qué?"
+            placeholder="¿A quién quieres agradecer este año y por qué?"
             required
           />
         </label>
@@ -226,12 +226,12 @@ export function SelfieFlow() {
       ) : null}
 
       <button type="submit" className={styles.submit} disabled={!ready || submitting}>
-        {submitting ? "Colgando en el árbol…" : "Colgar en el árbol"}
+        {submitting ? "Encendiendo tu luz…" : "✨ Encender mi luz"}
       </button>
 
       {!ready && !submitting ? (
         <p className={styles.hint}>
-          {photo ? "Escribe tu nombre y tu mensaje para continuar." : "Primero, una selfie."}
+          {photo ? "Escribe tu nombre y tu mensaje para continuar." : "Primero, tu foto."}
         </p>
       ) : null}
 
