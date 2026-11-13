@@ -1,0 +1,8 @@
+.logo {
+  display: inline-block;
+  height: 16px;
+  aspect-ratio: 214.73 / 29.19;
+  background-color: currentColor;
+  -webkit-mask: url("/assets/salva.svg") center / contain no-repeat;
+  mask: url("/assets/salva.svg") center / contain no-repeat;
+}

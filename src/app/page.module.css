@@ -1,0 +1,38 @@
+.main {
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: max(20px, env(safe-area-inset-top)) var(--gutter) max(40px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--snow);
+}
+
+.season {
+  font-size: 13px;
+  color: var(--snow-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-size: clamp(40px, 12vw, 56px);
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--snow-dim);
+  max-width: 36ch;
+  text-wrap: pretty;
+}

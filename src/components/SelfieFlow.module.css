@@ -1,0 +1,261 @@
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.notice {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--pink-10);
+  border: 1px solid rgba(255, 126, 244, 0.25);
+  font-size: 14px;
+  text-align: center;
+}
+
+.notice a {
+  color: var(--pink-soft);
+  font-weight: 500;
+}
+
+/* ── The ornament viewfinder ─────────────────────────────── */
+
+.ornament {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(72vw, 300px);
+}
+
+.string {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(var(--line), var(--pink-soft));
+}
+
+.cap {
+  width: 22%;
+  height: 14px;
+  margin-bottom: -4px;
+  border-radius: 6px 6px 2px 2px;
+  background: var(--pink-soft);
+  position: relative;
+  z-index: 1;
+}
+
+.bauble {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 126, 244, 0.35), transparent 45%), var(--pink);
+  box-shadow:
+    0 0 0 4px var(--pink-soft),
+    0 30px 90px -20px rgba(189, 0, 173, 0.7);
+  display: grid;
+  place-items: center;
+}
+
+.video,
+.preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video {
+  transform: scaleX(-1);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.video[data-visible="true"] {
+  opacity: 1;
+}
+
+.preview {
+  animation: settle 500ms var(--ease-out) both;
+}
+
+.placeholder {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: rgba(246, 241, 247, 0.85);
+}
+
+/* ── Controls ────────────────────────────────────────────── */
+
+.cameraControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  text-align: center;
+}
+
+.primary,
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--snow);
+  color: var(--night);
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 150ms var(--ease-out);
+}
+
+.primary:active,
+.submit:active {
+  transform: scale(0.97);
+}
+
+.primary:focus-within {
+  outline: 2px solid var(--pink-soft);
+  outline-offset: 3px;
+}
+
+.textButton {
+  padding: 8px 12px;
+  border: 0;
+  background: none;
+  color: var(--snow-dim);
+  font-size: 15px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+  cursor: pointer;
+}
+
+.textButton:focus-within {
+  outline: 2px solid var(--pink-soft);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.shutter {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 4px solid var(--snow);
+  background: var(--pink);
+  box-shadow: inset 0 0 0 4px var(--night);
+  transition: transform 150ms var(--ease-out);
+}
+
+.shutter:active {
+  transform: scale(0.92);
+}
+
+/* ── Form ────────────────────────────────────────────────── */
+
+.fields {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.counter {
+  font-size: 12px;
+  color: var(--snow-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(0, 19, 31, 0.5);
+  font-size: 16px; /* ≥16px avoids iOS zoom on focus */
+  resize: none;
+  transition: border-color 150ms;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgba(246, 241, 247, 0.38);
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--pink-soft);
+}
+
+.submit {
+  width: 100%;
+  background: var(--pink);
+  color: var(--snow);
+}
+
+.submit:disabled,
+.primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.hint {
+  font-size: 14px;
+  color: var(--snow-dim);
+  text-align: center;
+  max-width: 32ch;
+}
+
+.error {
+  width: 100%;
+  font-size: 14px;
+  color: var(--danger);
+  text-align: center;
+}
+
+.skip {
+  font-size: 14px;
+  color: var(--snow-dim);
+  text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.08);
+    filter: brightness(1.6);
+  }
+}

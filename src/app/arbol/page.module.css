@@ -1,0 +1,31 @@
+.main {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  min-height: 100dvh;
+  padding: max(20px, env(safe-area-inset-top)) var(--gutter) max(40px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header a {
+  display: inline-flex;
+  color: var(--snow);
+}
+
+.season {
+  font-size: 13px;
+  color: var(--snow-dim);
+}
+
+.title {
+  font-size: clamp(40px, 11vw, 72px);
+  text-align: center;
+  text-wrap: balance;
+}

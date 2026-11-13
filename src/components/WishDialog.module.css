@@ -1,0 +1,78 @@
+.dialog {
+  width: min(100% - 32px, 400px);
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: var(--snow);
+  color: var(--night);
+  overflow: auto;
+}
+
+.dialog::backdrop {
+  background: rgba(0, 19, 31, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.dialog[open] {
+  animation: open 450ms var(--ease-out) both;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  background: var(--pink);
+}
+
+.text {
+  padding: 20px 22px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name {
+  font-size: 28px;
+}
+
+.message {
+  font-size: 17px;
+  line-height: 1.45;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.time {
+  font-size: 13px;
+  color: rgba(0, 32, 52, 0.6);
+}
+
+.close {
+  margin: 12px 22px 22px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--night);
+  color: var(--snow);
+  font-weight: 500;
+}
+
+.close:focus-visible {
+  outline-color: var(--pink);
+}
+
+@keyframes open {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
