@@ -31,3 +31,12 @@ if (error) {
 } else {
   console.log(`✓ table 'wishes' reachable (${count} rows)`);
 }
+
+const broadcasts = await supabase.from("broadcasts").select("id").limit(1);
+if (broadcasts.error) {
+  console.log(`✗ table 'broadcasts': ${broadcasts.error.message}\n  → run supabase/002_broadcasts.sql in the Supabase SQL Editor`);
+  process.exitCode = 1;
+} else {
+  console.log("✓ table 'broadcasts' reachable");
+}
+

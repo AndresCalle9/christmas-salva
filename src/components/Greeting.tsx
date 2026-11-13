@@ -1,35 +1,43 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import useSWR from "swr";
 import { GREETINGS, GREETING_SIGNATURE } from "@/lib/greetings";
 import { KEYS, readStorage, writeStorage } from "@/lib/storage";
 import styles from "./Greeting.module.css";
 
-const DELAY_MS = 30_000;
-const SHOWN = "shown";
+type Broadcast = { id: number; createdAt: string } | null;
+
+const POLL_MS = 5000;
+// People who open the site a little after the button was pressed still get the note.
+const FRESH_FOR_MS = 15 * 60_000;
+
+async function fetchBroadcast(url: string): Promise<Broadcast> {
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
 
 /**
- * Thirty seconds after someone first opens the site (counted across pages within the tab),
- * a note from Andrés, Lizz and the Madrid office slides in. Each tab picks one message at random.
+ * When the button on the hidden control page is pressed, every open page picks up the new
+ * broadcast on its next poll and shows a note from Andrés, Lizz and the Madrid office —
+ * each device picks one of the messages at random.
  */
 export function Greeting() {
   const [message, setMessage] = useState<string | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (readStorage("session", KEYS.greeting) === SHOWN) return;
-
-    const now = Date.now();
-    const openedAt = Number(readStorage("session", KEYS.openedAt)) || now;
-    writeStorage("session", KEYS.openedAt, String(openedAt));
-
-    const wait = Math.max(0, DELAY_MS - (now - openedAt));
-    const timer = window.setTimeout(() => {
+  useSWR("/api/broadcast", fetchBroadcast, {
+    refreshInterval: POLL_MS,
+    onSuccess: (broadcast) => {
+      if (!broadcast) return;
+      const id = String(broadcast.id);
+      if (readStorage("local", KEYS.seenBroadcast) === id) return;
+      writeStorage("local", KEYS.seenBroadcast, id);
+      if (Date.now() - Date.parse(broadcast.createdAt) > FRESH_FOR_MS) return;
       setMessage(GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
-      writeStorage("session", KEYS.greeting, SHOWN);
-    }, wait);
-    return () => window.clearTimeout(timer);
-  }, []);
+    },
+  });
 
   useEffect(() => {
     if (!message) return;

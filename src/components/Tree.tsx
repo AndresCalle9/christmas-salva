@@ -1,21 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import { memo, useMemo, useState, useSyncExternalStore } from "react";
+import { memo, useCallback, useMemo, useState, useSyncExternalStore } from "react";
 import useSWR from "swr";
 import { KEYS, readStorage } from "@/lib/storage";
-import { buildSlots, rowsFor } from "@/lib/tree-layout";
+import {
+  buildSlots,
+  decorFor,
+  epochSince,
+  placeWishes,
+  rowsFor,
+  twinkleDelay,
+  type Decor,
+} from "@/lib/tree-layout";
 import type { Wish } from "@/lib/wish";
 import { WishDialog } from "./WishDialog";
 import styles from "./Tree.module.css";
 
 const REFRESH_MS = 4000;
 const noopSubscribe = () => () => {};
+const tickEverySecond = (onTick: () => void) => {
+  const id = window.setInterval(onTick, 1000);
+  return () => window.clearInterval(id);
+};
 
 async function fetchWishes(url: string): Promise<Wish[]> {
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
+}
+
+/** Decoration epoch: advances every 45 s, counted from the first photo, the same on every device. */
+function useDecorEpoch(firstPhotoAt: string | undefined): number {
+  const getSnapshot = useCallback(() => epochSince(firstPhotoAt, Date.now()), [firstPhotoAt]);
+  return useSyncExternalStore(tickEverySecond, getSnapshot, () => 0);
 }
 
 export function Tree({ initial }: { initial: Wish[] }) {
@@ -37,6 +55,9 @@ export function Tree({ initial }: { initial: Wish[] }) {
 
   const rows = rowsFor(wishes.length);
   const slots = useMemo(() => buildSlots(rows), [rows]);
+  const placed = useMemo(() => placeWishes(wishes, slots.length), [wishes, slots.length]);
+  const epoch = useDecorEpoch(wishes[0]?.createdAt);
+  const emptyRatio = (slots.length - wishes.length) / slots.length;
   const hasMine = myId !== null && wishes.some((w) => w.id === myId);
 
   return (
@@ -50,30 +71,32 @@ export function Tree({ initial }: { initial: Wish[] }) {
       </p>
 
       <div className={styles.stage}>
-        <Star />
+        <TopStar />
         <div className={styles.tree} style={{ "--rows": rows } as React.CSSProperties}>
-
           <ul className={styles.slots}>
             {slots.map((slot, i) => {
-              const wish = wishes[i];
               const style = { left: `${slot.x}%`, top: `${slot.y}%` } as React.CSSProperties;
-              return wish ? (
-                <li key={wish.id} className={styles.slot} style={style}>
-                  <Ornament
-                    wish={wish}
-                    mine={wish.id === myId}
-                    delayMs={initialIds.has(wish.id) ? Math.min(i * 40, 1600) : 0}
-                    onOpen={setSelected}
+              const entry = placed.get(i);
+              if (entry) {
+                const { wish, order } = entry;
+                return (
+                  <li key={wish.id} className={styles.slot} style={style}>
+                    <Ornament
+                      wish={wish}
+                      mine={wish.id === myId}
+                      delayMs={initialIds.has(wish.id) ? Math.min(order * 60, 1600) : 0}
+                      onOpen={setSelected}
+                    />
+                  </li>
+                );
+              }
+              return (
+                <li key={`slot-${i}`} className={styles.slot} style={style} aria-hidden>
+                  <Decoration
+                    key={epoch}
+                    decor={decorFor(i, epoch, emptyRatio)}
+                    twinkle={twinkleDelay(i)}
                   />
-                </li>
-              ) : (
-                <li
-                  key={`light-${i}`}
-                  className={styles.slot}
-                  style={{ ...style, "--twinkle": `${((i * 37) % 23) / 10}s` } as React.CSSProperties}
-                  aria-hidden
-                >
-                  <span className={styles.light} />
                 </li>
               );
             })}
@@ -114,17 +137,35 @@ const Ornament = memo(function Ornament({
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- already resized to 720px on upload */}
       <img src={wish.photoUrl} alt="" loading="lazy" decoding="async" />
-      <span className="visually-hidden">
-        {mine ? "Tu mensaje" : `Mensaje de ${wish.name}`}
-      </span>
+      <span className="visually-hidden">{mine ? "Tu mensaje" : `Mensaje de ${wish.name}`}</span>
     </button>
   );
 });
 
-function Star() {
+const STAR_PATH = "M12 1.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 8.7l7.1-.6z";
+
+function Decoration({ decor, twinkle }: { decor: Decor; twinkle: string }) {
+  const style = { "--twinkle": twinkle } as React.CSSProperties;
+  if (decor.kind === "star") {
+    return (
+      <svg className={styles.decorStar} data-color={decor.color} viewBox="0 0 24 24" style={style}>
+        <path d={STAR_PATH} />
+      </svg>
+    );
+  }
+  return (
+    <span
+      className={decor.kind === "bauble" ? styles.decorBauble : styles.decorLight}
+      data-color={decor.color}
+      style={style}
+    />
+  );
+}
+
+function TopStar() {
   return (
     <svg className={styles.star} viewBox="0 0 24 24" aria-hidden>
-      <path d="M12 1.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 8.7l7.1-.6z" />
+      <path d={STAR_PATH} />
     </svg>
   );
 }

@@ -28,6 +28,5 @@ export function writeStorage(kind: Area, key: string, value: string): void {
 
 export const KEYS = {
   myWishId: "salva:v1:my-wish-id",
-  openedAt: "salva:v1:opened-at",
-  greeting: "salva:v1:greeting",
+  seenBroadcast: "salva:v1:seen-broadcast",
 } as const;

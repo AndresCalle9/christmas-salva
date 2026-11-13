@@ -13,6 +13,11 @@
   --line: rgba(246, 241, 247, 0.14);
   --danger: #ff8a9a;
 
+  /* Tree decorations */
+  --light-red: #ff4d6d;
+  --light-green: #4be3a0;
+  --light-gold: #ffd978;
+
   --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-body: var(--font-dm-sans), system-ui, sans-serif;
 

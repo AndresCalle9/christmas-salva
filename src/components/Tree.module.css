@@ -46,16 +46,61 @@
     width 700ms var(--ease-out);
 }
 
-.light {
+/* ── Decorations in empty slots (re-rolled every 45 s) ───── */
+
+.slot [data-color="pink"] {
+  --decor: var(--pink-soft);
+  --decor-glow: rgba(189, 0, 173, 0.65);
+}
+
+.slot [data-color="red"] {
+  --decor: var(--light-red);
+  --decor-glow: rgba(255, 59, 92, 0.55);
+}
+
+.slot [data-color="green"] {
+  --decor: var(--light-green);
+  --decor-glow: rgba(42, 214, 128, 0.5);
+}
+
+.slot [data-color="gold"] {
+  --decor: var(--light-gold);
+  --decor-glow: rgba(255, 200, 87, 0.55);
+}
+
+.decorLight,
+.decorBauble,
+.decorStar {
+  animation:
+    decor-in 700ms var(--ease-out) both,
+    twinkle 2.6s ease-in-out var(--twinkle, 0s) infinite;
+}
+
+.decorLight {
   width: 22%;
   min-width: 5px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--pink-soft);
+  background: var(--decor);
   box-shadow:
-    0 0 6px 1px rgba(255, 126, 244, 0.9),
-    0 0 18px 4px rgba(189, 0, 173, 0.6);
-  animation: twinkle 2.6s ease-in-out var(--twinkle, 0s) infinite;
+    0 0 6px 1px var(--decor),
+    0 0 18px 4px var(--decor-glow);
+}
+
+.decorBauble {
+  width: 52%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.55), transparent 42%), var(--decor);
+  box-shadow: 0 0 16px 2px var(--decor-glow);
+  animation-name: decor-in, breathe;
+}
+
+.decorStar {
+  width: 58%;
+  fill: var(--decor);
+  filter: drop-shadow(0 0 8px var(--decor-glow));
+  animation-name: decor-in, breathe;
 }
 
 .ornament {
@@ -126,6 +171,20 @@
   60% {
     opacity: 1;
     transform: translateY(3px) scale(1.04);
+  }
+}
+
+@keyframes decor-in {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-30deg);
+  }
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.7;
+    transform: scale(0.92);
   }
 }
 

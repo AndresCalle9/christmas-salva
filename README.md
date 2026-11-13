@@ -1,6 +1,6 @@
 # El árbol de Salva
 
-Sorpresa de Navidad: cada persona escanea el QR, se toma una selfie, deja un mensaje de agradecimiento y su foto aparece como adorno en un árbol compartido. A los 30 segundos de abrir el sitio, cada persona recibe una nota (elegida al azar) de Andrés, Lizz y la sede Madrid.
+Sorpresa de Navidad: cada persona escanea el QR, se toma una selfie, deja un mensaje de agradecimiento y su foto aparece como adorno en un árbol compartido. Desde una página oculta (`/control`) se envía, a todas las personas con el sitio abierto, una nota de Andrés, Lizz y la sede Madrid (cada dispositivo ve un mensaje al azar).
 
 ## Stack
 
@@ -19,7 +19,7 @@ La secret key de Supabase **solo se usa en el servidor** (`src/lib/supabase-serv
    SUPABASE_SECRET_KEY=sb_secret_...
    ```
 
-2. En Supabase → SQL Editor, ejecuta [`supabase/schema.sql`](supabase/schema.sql).
+2. En Supabase → SQL Editor, ejecuta [`supabase/schema.sql`](supabase/schema.sql) y luego [`supabase/002_broadcasts.sql`](supabase/002_broadcasts.sql).
 3. Comprueba que todo está listo:
 
    ```bash
@@ -33,13 +33,22 @@ La secret key de Supabase **solo se usa en el servidor** (`src/lib/supabase-serv
 | Qué | Archivo |
 | --- | --- |
 | Mensajes de la notificación (y su firma) | `src/lib/greetings.ts` |
-| Retraso de la notificación (30 s) | `src/components/Greeting.tsx` (`DELAY_MS`) |
+| Ventana en que la nota aún aparece a quien entra tarde (15 min) | `src/components/Greeting.tsx` (`FRESH_FOR_MS`) |
+| Cada cuánto cambian las decoraciones (45 s) | `src/lib/tree-layout.ts` (`DECOR_EPOCH_MS`) |
 | Frecuencia de refresco del árbol | `src/components/Tree.tsx` (`REFRESH_MS`) |
 | Colores de marca | `src/app/globals.css` (`:root`) |
 | Límites de nombre / mensaje / foto | `src/lib/wish.ts` |
+
+## Reiniciar el árbol
+
+1. Supabase → SQL Editor → ejecuta [`supabase/reset.sql`](supabase/reset.sql) (borra fotos de la tabla y envíos).
+2. `npm run reset:photos` para vaciar el bucket `selfies` (Supabase no permite borrar archivos desde SQL).
+3. En tu móvil, borra los datos del sitio si quieres volver a ver el flujo como alguien nuevo.
 
 ## Rutas
 
 - `/` — selfie + nombre + mensaje
 - `/arbol` — el árbol (sirve también para proyectarlo en una pantalla)
+- `/control` — página oculta con el botón para enviar la nota a todos
 - `GET /api/wishes` — lista de adornos · `POST /api/wishes` — multipart `photo`, `name`, `message`
+- `GET /api/broadcast` — último envío · `POST /api/broadcast` — envía la nota
